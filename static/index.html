@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Finder Suite</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    <main class="container">
+      <header class="hero">
+        <h1>AI Finder Suite</h1>
+        <p>Finde die beste KI-App für deinen Prompt – intelligent analysiert und elegant visualisiert.</p>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="analysis">Prompt Analyse</button>
+        <button class="tab" data-tab="search">Suche & Filter</button>
+      </nav>
+
+      <section id="analysis" class="panel active">
+        <form id="analysisForm" class="card">
+          <label for="promptInput">Was möchtest du mit KI lösen?</label>
+          <textarea id="promptInput" placeholder="Beispiel: Ich brauche ein Tool für Coding, Dokumentation und schnelle Buganalyse."></textarea>
+          <div class="row">
+            <label>Top Ergebnisse
+              <input type="number" id="topK" min="1" max="10" value="5" />
+            </label>
+            <button type="submit">Beste KI finden</button>
+          </div>
+        </form>
+        <div id="analysisResults" class="results"></div>
+      </section>
+
+      <section id="search" class="panel">
+        <form id="searchForm" class="card filters">
+          <input id="searchQuery" placeholder="Suche nach Name, Features, Keywords ..." />
+          <select id="searchCategory">
+            <option value="">Alle Kategorien</option>
+            <option value="coding">Coding</option>
+            <option value="research">Research</option>
+            <option value="design">Design</option>
+            <option value="writing, marketing">Marketing</option>
+            <option value="productivity">Productivity</option>
+          </select>
+          <select id="searchPricing">
+            <option value="">Alle Preise</option>
+            <option value="free">Kostenlos / Freemium</option>
+            <option value="paid">Paid</option>
+          </select>
+          <input id="minPopularity" type="number" step="0.1" min="0" max="5" value="0" placeholder="Min. Popularity" />
+          <button type="submit">Filtern</button>
+        </form>
+        <div id="searchResults" class="results"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
