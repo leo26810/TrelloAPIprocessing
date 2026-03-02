@@ -20,6 +20,20 @@ def test_analyze_prompt():
     assert payload[0]['score'] >= payload[-1]['score']
 
 
+def test_import_data():
+    response = client.post('/api/import')
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload['imported'] > 0
+    assert 'source' in payload
+
+    # Verify data is actually in the database after import
+    apps_response = client.get('/api/apps')
+    assert apps_response.status_code == 200
+    apps = apps_response.json()
+    assert len(apps) == payload['imported']
+
+
 def test_search_filters():
     response = client.get('/api/search', params={'category': 'coding', 'min_popularity': 4.0})
     assert response.status_code == 200

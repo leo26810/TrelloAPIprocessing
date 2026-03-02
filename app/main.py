@@ -81,7 +81,7 @@ def get_db() -> sqlite3.Connection:
     return conn
 
 
-def init_db() -> None:
+def init_db() -> int:
     DB_FILE.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DB_FILE) as conn:
         conn.executescript(
@@ -116,6 +116,7 @@ def init_db() -> None:
             """,
             data,
         )
+        return len(data)
 
 
 def tokenize(text: str) -> list[str]:
@@ -183,6 +184,15 @@ def startup_event() -> None:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.post("/api/import")
+def import_data() -> dict[str, Any]:
+    """Re-import all AI apps from the JSON data file into the database."""
+    if not DATA_FILE.exists():
+        raise HTTPException(status_code=404, detail=f"Data file not found: {DATA_FILE}")
+    count = init_db()
+    return {"imported": count, "source": str(DATA_FILE)}
 
 
 @app.post("/api/analyze", response_model=list[AppResult])
